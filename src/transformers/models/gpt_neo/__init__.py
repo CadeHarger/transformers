@@ -34,6 +34,7 @@ else:
         "GPTNeoForTokenClassification",
         "GPTNeoModel",
         "GPTNeoPreTrainedModel",
+        "GPTNeoBlock",
         "load_tf_weights_in_gpt_neo",
     ]
 
@@ -67,6 +68,7 @@ if TYPE_CHECKING:
             GPTNeoForTokenClassification,
             GPTNeoModel,
             GPTNeoPreTrainedModel,
+            GPTNeoBlock,
             load_tf_weights_in_gpt_neo,
         )
 
