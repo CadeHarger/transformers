@@ -2367,6 +2367,7 @@ else:
             "GPTNeoForSequenceClassification",
             "GPTNeoForTokenClassification",
             "GPTNeoModel",
+            "GPTNeoBlock",
             "GPTNeoPreTrainedModel",
             "load_tf_weights_in_gpt_neo",
         ]
@@ -7177,6 +7178,7 @@ if TYPE_CHECKING:
             GPTNeoForTokenClassification,
             GPTNeoModel,
             GPTNeoPreTrainedModel,
+            GPTNeoBlock,
             load_tf_weights_in_gpt_neo,
         )
         from .models.gpt_neox import (
