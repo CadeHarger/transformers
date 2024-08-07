@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" PyTorch ALIGN model."""
+"""PyTorch ALIGN model."""
 
 import math
 from dataclasses import dataclass
@@ -45,9 +45,6 @@ logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = "kakaobrain/align-base"
 _CONFIG_FOR_DOC = "AlignConfig"
-
-
-from ..deprecated._archive_maps import ALIGN_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
 
 
 ALIGN_START_DOCSTRING = r"""
@@ -1421,13 +1418,13 @@ class AlignModel(AlignPreTrainedModel):
         super().__init__(config)
 
         if not isinstance(config.text_config, AlignTextConfig):
-            raise ValueError(
+            raise TypeError(
                 "config.text_config is expected to be of type AlignTextConfig but is of type"
                 f" {type(config.text_config)}."
             )
 
         if not isinstance(config.vision_config, AlignVisionConfig):
-            raise ValueError(
+            raise TypeError(
                 "config.vision_config is expected to be of type AlignVisionConfig but is of type"
                 f" {type(config.vision_config)}."
             )

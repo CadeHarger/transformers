@@ -52,9 +52,6 @@ _CHECKPOINT_FOR_DOC = "almanach/camembert-base"
 _CONFIG_FOR_DOC = "CamembertConfig"
 
 
-from ..deprecated._archive_maps import CAMEMBERT_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
-
-
 CAMEMBERT_START_DOCSTRING = r"""
 
     This model inherits from [`PreTrainedModel`]. Check the superclass documentation for the generic methods the
@@ -975,7 +972,7 @@ class CamembertForMaskedLM(CamembertPreTrainedModel):
             Labels for computing the masked language modeling loss. Indices should be in `[-100, 0, ...,
             config.vocab_size]` (see `input_ids` docstring) Tokens with indices set to `-100` are ignored (masked), the
             loss is only computed for the tokens with labels in `[0, ..., config.vocab_size]`
-        kwargs (`Dict[str, any]`, optional, defaults to *{}*):
+        kwargs (`Dict[str, any]`, *optional*, defaults to `{}`):
             Used to hide legacy arguments that have been deprecated.
         """
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict

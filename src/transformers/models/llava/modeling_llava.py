@@ -39,8 +39,8 @@ logger = logging.get_logger(__name__)
 
 _CONFIG_FOR_DOC = "LlavaConfig"
 
-
-from ..deprecated._archive_maps import LLAVA_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
+# Base docstring
+_CHECKPOINT_FOR_DOC = "llava-hf/llava-1.5-7b-hf"
 
 
 @dataclass
@@ -129,6 +129,7 @@ class LlavaPreTrainedModel(PreTrainedModel):
     _no_split_modules = ["LlavaVisionAttention"]
     _skip_keys_device_placement = "past_key_values"
     _supports_flash_attn_2 = True
+    _supports_cache_class = True
 
     def _init_weights(self, module):
         # important: this ported version of Llava isn't meant for training from scratch - only
@@ -442,8 +443,6 @@ class LlavaForConditionalGeneration(LlavaPreTrainedModel):
                 inputs_embeds, attention_mask, labels, position_ids = self._merge_input_ids_with_image_features(
                     image_features, inputs_embeds, input_ids, attention_mask, labels
                 )
-                if labels is None:
-                    labels = torch.full_like(attention_mask, self.config.ignore_index).to(torch.long)
 
             # In case input_ids.shape[1] == 1 & pixel_values==None & past_key_values != None, we are in the case of
             # generation with cache

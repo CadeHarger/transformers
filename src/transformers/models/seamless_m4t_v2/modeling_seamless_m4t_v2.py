@@ -12,8 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" PyTorch SeamlessM4Tv2 model."""
-
+"""PyTorch SeamlessM4Tv2 model."""
 
 import copy
 import math
@@ -49,14 +48,6 @@ logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = ""
 _CONFIG_FOR_DOC = "SeamlessM4Tv2Config"
-
-
-from ..deprecated._archive_maps import SEAMLESS_M4T_V2_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
-
-
-SPEECHT5_PRETRAINED_HIFIGAN_CONFIG_ARCHIVE_MAP = {
-    "microsoft/speecht5_hifigan": "https://huggingface.co/microsoft/speecht5_hifigan/resolve/main/config.json",
-}
 
 
 @dataclass
@@ -797,6 +788,8 @@ class SeamlessM4Tv2ConformerEncoder(nn.Module):
                         layer.__call__,
                         hidden_states,
                         attention_mask,
+                        output_attentions,
+                        conv_attention_mask,
                     )
                 else:
                     layer_outputs = layer(
@@ -3429,6 +3422,7 @@ class SeamlessM4Tv2ForSpeechToText(SeamlessM4Tv2PreTrainedModel):
         """
         text_decoder_input_ids = kwargs.pop("decoder_input_ids", None)
         # overwrite text_decoder_input_ids if tgt_lang is passed. The latter gets priority over decoder_input_ids.
+        input_features = input_features if input_features is not None else kwargs.pop("inputs")
         if tgt_lang is not None:
             inputs = kwargs.get("input_embeds") if input_features is None else input_features
             inputs = (

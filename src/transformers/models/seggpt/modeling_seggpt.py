@@ -12,8 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" PyTorch SegGpt model."""
-
+"""PyTorch SegGpt model."""
 
 import collections.abc
 import math
@@ -47,9 +46,6 @@ _CHECKPOINT_FOR_DOC = "BAAI/seggpt-vit-large"
 _EXPECTED_OUTPUT_SHAPE = [3, 896, 448]
 
 
-from ..deprecated._archive_maps import SEGGPT_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
-
-
 @dataclass
 class SegGptEncoderOutput(ModelOutput):
     """
@@ -63,7 +59,7 @@ class SegGptEncoderOutput(ModelOutput):
         attentions (`Tuple[torch.FloatTensor]`, `optional`, returned when `config.output_attentions=True`):
             Tuple of *torch.FloatTensor* (one for each layer) of shape
             `(batch_size, num_heads, seq_len, seq_len)`.
-        intermediate_hidden_states (`Tuple[torch.FloatTensor]`, `optional`, returned when `config.intermediate_hidden_state_indices` is set):
+        intermediate_hidden_states (`Tuple[torch.FloatTensor]`, *optional*, returned when `config.intermediate_hidden_state_indices` is set):
             Tuple of `torch.FloatTensor` of shape `(batch_size, patch_height, patch_width, hidden_size)`.
             Each element in the Tuple corresponds to the output of the layer specified in `config.intermediate_hidden_state_indices`.
             Additionaly, each feature passes through a LayerNorm.
@@ -81,7 +77,7 @@ class SegGptImageSegmentationOutput(ModelOutput):
     Output type of [`SegGptImageSegmentationOutput`].
 
     Args:
-        loss (`torch.FloatTensor`, `optional`, returned when `labels` is provided):
+        loss (`torch.FloatTensor`, *optional*, returned when `labels` is provided):
             The loss value.
         pred_masks (`torch.FloatTensor` of shape `(batch_size, num_channels, height, width)`):
             The predicted masks.

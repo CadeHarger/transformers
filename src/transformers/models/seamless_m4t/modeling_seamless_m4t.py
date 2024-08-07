@@ -12,8 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" PyTorch SeamlessM4T model."""
-
+"""PyTorch SeamlessM4T model."""
 
 import copy
 import math
@@ -49,12 +48,6 @@ logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = "facebook/hf-seamless-m4t-medium"
 _CONFIG_FOR_DOC = "SeamlessM4TConfig"
-
-
-from ..deprecated._archive_maps import (  # noqa: F401, E402
-    SEAMLESS_M4T_PRETRAINED_MODEL_ARCHIVE_LIST,  # noqa: F401, E402
-    SPEECHT5_PRETRAINED_HIFIGAN_CONFIG_ARCHIVE_MAP,  # noqa: F401, E402
-)
 
 
 @dataclass
@@ -332,8 +325,14 @@ class SeamlessM4TConformerPositionalConvEmbedding(nn.Module):
 
             with deepspeed.zero.GatheredParameters(self.conv.weight, modifier_rank=0):
                 self.conv = weight_norm(self.conv, name="weight", dim=2)
-            deepspeed.zero.register_external_parameter(self, self.conv.weight_v)
-            deepspeed.zero.register_external_parameter(self, self.conv.weight_g)
+            if hasattr(self.conv, "parametrizations"):
+                weight_g = self.conv.parametrizations.weight.original0
+                weight_v = self.conv.parametrizations.weight.original1
+            else:
+                weight_g = self.conv.weight_g
+                weight_v = self.conv.weight_v
+            deepspeed.zero.register_external_parameter(self, weight_v)
+            deepspeed.zero.register_external_parameter(self, weight_g)
         else:
             self.conv = weight_norm(self.conv, name="weight", dim=2)
 
@@ -843,6 +842,8 @@ class SeamlessM4TConformerEncoder(nn.Module):
                         hidden_states,
                         attention_mask,
                         relative_position_embeddings,
+                        output_attentions,
+                        conv_attention_mask,
                     )
                 else:
                     layer_outputs = layer(
@@ -3153,6 +3154,7 @@ class SeamlessM4TForSpeechToText(SeamlessM4TPreTrainedModel):
         """
         text_decoder_input_ids = kwargs.pop("decoder_input_ids", None)
         # overwrite text_decoder_input_ids if tgt_lang is passed. The latter gets priority over decoder_input_ids.
+        input_features = input_features if input_features is not None else kwargs.pop("inputs")
         if tgt_lang is not None:
             inputs = kwargs.get("input_embeds") if input_features is None else input_features
             inputs = (

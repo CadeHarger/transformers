@@ -12,8 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" PyTorch Chinese-CLIP model."""
-
+"""PyTorch Chinese-CLIP model."""
 
 import math
 from dataclasses import dataclass
@@ -47,9 +46,6 @@ logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = "OFA-Sys/chinese-clip-vit-base-patch16"
 _CONFIG_FOR_DOC = "ChineseCLIPConfig"
-
-
-from ..deprecated._archive_maps import CHINESE_CLIP_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
 
 
 # https://sachinruk.github.io/blog/pytorch/pytorch%20lightning/loss%20function/gpu/2021/03/07/CLIP.html
@@ -1345,13 +1341,13 @@ class ChineseCLIPModel(ChineseCLIPPreTrainedModel):
         super().__init__(config)
 
         if not isinstance(config.text_config, ChineseCLIPTextConfig):
-            raise ValueError(
+            raise TypeError(
                 "config.text_config is expected to be of type ChineseCLIPTextConfig but is of type"
                 f" {type(config.text_config)}."
             )
 
         if not isinstance(config.vision_config, ChineseCLIPVisionConfig):
-            raise ValueError(
+            raise TypeError(
                 "config.vision_config is expected to be of type ChineseCLIPVisionConfig but is of type"
                 f" {type(config.vision_config)}."
             )

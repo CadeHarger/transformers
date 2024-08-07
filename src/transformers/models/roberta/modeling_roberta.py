@@ -52,9 +52,6 @@ _CHECKPOINT_FOR_DOC = "FacebookAI/roberta-base"
 _CONFIG_FOR_DOC = "RobertaConfig"
 
 
-from ..deprecated._archive_maps import ROBERTA_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
-
-
 class RobertaEmbeddings(nn.Module):
     """
     Same as BertEmbeddings with a tiny tweak for positional embeddings indexing.
@@ -1076,7 +1073,7 @@ class RobertaForMaskedLM(RobertaPreTrainedModel):
             Labels for computing the masked language modeling loss. Indices should be in `[-100, 0, ...,
             config.vocab_size]` (see `input_ids` docstring) Tokens with indices set to `-100` are ignored (masked), the
             loss is only computed for the tokens with labels in `[0, ..., config.vocab_size]`
-        kwargs (`Dict[str, any]`, optional, defaults to *{}*):
+        kwargs (`Dict[str, any]`, *optional*, defaults to `{}`):
             Used to hide legacy arguments that have been deprecated.
         """
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
